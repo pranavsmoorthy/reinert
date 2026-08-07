@@ -7,7 +7,7 @@
 #include "../data/model_resources/earnings_struct.h"
 #include "../data/model_resources/earnings_struct_serialize_config.h"
 
-#include "formatter.h"
+#include "../include/formatter.h"
 
 #include <vector>
 #include <array>
