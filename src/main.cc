@@ -7,6 +7,8 @@
 #include "../data/model_resources/earnings_struct.h"
 #include "../data/model_resources/earnings_struct_serialize_config.h"
 
+#include "formatter.h"
+
 #include <vector>
 #include <array>
 #include <iostream>
@@ -16,6 +18,7 @@ using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 int main() {
     vectorforge::serializer::Serializer<EarningsStruct, double, 12, 16> ser;
     EarningsStructSerializerConfig config;
+    Formatter format;
 
     vectorforge::graph::Graph<EarningsStruct, double, 12, 16> model;
     ser.Load(model, "data/earnings_model.bin", config);
@@ -27,8 +30,9 @@ int main() {
 
     std::vector<NodeType*> closest = model.FindNearestKNodes(coords, default_config);
 
+    std::cout << "Ticker     Date            Similarity     Deviation     Went Up?     Percent Change" << std::endl;
     for (NodeType* n : closest) {
-        std::cout << (n->GetData()).ticker << "      " << (n->GetData()).date << "      " << (n->GetData()).label << std::endl;
+        std::cout << format.FormatNode(*n, coords) << std::endl;
     }
 
     return 0;
