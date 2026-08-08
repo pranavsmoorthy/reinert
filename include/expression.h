@@ -5,16 +5,23 @@
 
 #include <string>
 #include <stdexcept>
+#include <array>
 
+template<typename T, std::size_t L>
 class Expression {
+    protected:
+        std::array<Expression*, L> leaves_{};
+
     public:
         virtual ~Expression() = default;
 
-        void ThrowCannotExecuteCommand(const std::string& additional_info) {
+        virtual T Execute(const Context& ctx) const = 0;
+
+        void ThrowCannotExecuteCommand(const std::string& additional_info) const {
             throw std::logic_error("Command could not execute: " + additional_info);
         }
 
-        void ThrowCannotExecuteCommand() {
+        void ThrowCannotExecuteCommand() const {
             throw std::logic_error("Command could not execute");
         }
 };
