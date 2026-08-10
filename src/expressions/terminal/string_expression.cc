@@ -1,21 +1,13 @@
-#pragma once
-
-#include "../../../include/expression.h"
-#include "../../../include/context.h"
+#include "expressions/terminal/string_expression.h"
+#include "context.h"
 
 #include <any>
 #include <string>
 
-class StringExpression : public Expression {
-    private:
-        std::string value_;
-    
-    public:
-        StringExpression(const std::string& s) {
-            value_ = s;
-        }
+StringExpression::StringExpression(const std::string& s) {
+    value_ = s;
+}
 
-        std::any Execute(const Context& ctx) const override {
-            return value_;
-        }
-};
+std::any StringExpression::Execute(const Context& /*ctx*/) const {
+    return value_;
+}

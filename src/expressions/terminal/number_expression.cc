@@ -1,20 +1,12 @@
-#pragma once
-
-#include "../../../include/expression.h"
-#include "../../../include/context.h"
+#include "expressions/terminal/number_expression.h"
+#include "context.h"
 
 #include <any>
 
-class NumberExpression : public Expression {
-    private:
-        double value_;
-    
-    public:
-        NumberExpression(double i) {
-            value_ = i;
-        }
+NumberExpression::NumberExpression(double i) {
+    value_ = i;
+}
 
-        std::any Execute(const Context& ctx) const override {
-            return value_;
-        }
-};
+std::any NumberExpression::Execute(const Context& /*ctx*/) const {
+    return value_;
+}

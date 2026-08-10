@@ -7,8 +7,8 @@
 #include "../data/model_resources/earnings_struct.h"
 #include "../data/model_resources/earnings_struct_serialize_config.h"
 
-#include "../include/context.h"
-#include "../include/formatter.h"
+#include "context.h"
+#include "formatter.h"
 
 #include "expressions/nonterminal/analyze_manual.cc"
 
@@ -18,18 +18,9 @@
 
 using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 
-void SearchProfile::AdditionalValidate() const {
-    auto it = ctx.search_profiles.find(name);
-
-    if (it != ctx.search_profiles.end()) {
-        throw std::logic_error("Search Profile with given name already exists");
-    }
-}
-
 int main() {
     vectorforge::serializer::Serializer<EarningsStruct, double, 12, 16> ser;
     EarningsStructSerializerConfig config;
-    Formatter format;
 
     vectorforge::graph::Graph<EarningsStruct, double, 12, 16> model;
     ser.Load(model, "data/earnings_model.bin", config);

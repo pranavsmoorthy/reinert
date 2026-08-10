@@ -1,10 +1,10 @@
-#include "../terminal/coord_expression.cc"
-#include "../terminal/string_expression.cc"
+#include "expressions/terminal/coord_expression.h"
+#include "expressions/terminal/string_expression.h"
 
-#include "../../../include/expression.h"
-#include "../../../include/context.h"
-#include "../../../include/profile.h"
-#include "../../../include/formatter.h"
+#include "expression.h"
+#include "context.h"
+#include "profile.h"
+#include "formatter.h"
 
 #include "vectorforge/node.h"
 #include "vectorforge/graph.h"

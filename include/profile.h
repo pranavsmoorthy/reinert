@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef INCLUDE_PROFILE_H_
 #define INCLUDE_PROFILE_H_
 
@@ -13,7 +15,6 @@ struct SearchProfile : public vectorforge::config::FindManyNodesConfig {
     const Context& ctx;
 
     SearchProfile(const Context& context) : ctx(context) {}
-
     void AdditionalValidate() const override;
 };
 
