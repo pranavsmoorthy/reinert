@@ -1,7 +1,11 @@
-#include "../../include/expression.h"
-#include "../../include/context.h"
+#pragma once
 
-class NumberExpression : public Expression<double, 0> {
+#include "../../../include/expression.h"
+#include "../../../include/context.h"
+
+#include <any>
+
+class NumberExpression : public Expression {
     private:
         double value_;
     
@@ -10,7 +14,7 @@ class NumberExpression : public Expression<double, 0> {
             value_ = i;
         }
 
-        double Execute(const Context& ctx) const override {
+        std::any Execute(const Context& ctx) const override {
             return value_;
         }
 };
