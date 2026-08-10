@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef INCLUDE_NUMBER_COORD_EXPRESSION_H_
+#define INCLUDE_NUMBER_COORD_EXPRESSION_H_
+
 #include "expression.h"
 #include "context.h"
 
@@ -13,3 +16,5 @@ class NumberExpression : public Expression {
         NumberExpression(double i);
         std::any Execute(const Context& /*ctx*/) const override;
 };
+
+#endif

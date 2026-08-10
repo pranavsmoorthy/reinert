@@ -10,7 +10,7 @@
 #include "context.h"
 #include "formatter.h"
 
-#include "expressions/nonterminal/analyze_manual.cc"
+#include "expressions/nonterminal/analyze_manual.h"
 
 #include <vector>
 #include <array>

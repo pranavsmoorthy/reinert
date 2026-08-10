@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef INCLUDE_CONTEXT_H_
 #define INCLUDE_CONTEXT_H_
 

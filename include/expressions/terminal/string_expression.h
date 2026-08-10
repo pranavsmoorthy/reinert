@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef INCLUDE_STRING_COORD_EXPRESSION_H_
+#define INCLUDE_STRING_COORD_EXPRESSION_H_
+
 #include "expression.h"
 #include "context.h"
 
@@ -14,3 +17,5 @@ class StringExpression : public Expression {
         StringExpression(const std::string& s);
         std::any Execute(const Context& /*ctx*/) const override;
 };
+
+#endif

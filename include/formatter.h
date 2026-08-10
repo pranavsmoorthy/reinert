@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef FORMATTER_H_
 #define FORMATTER_H_
 
@@ -26,8 +28,6 @@ struct Formatter {
     static std::string FormatNode(const vectorforge::node::Node<EarningsStruct, double, 12, 16>& in, const std::array<double, 12>& query) {
         std::ostringstream oss;
 
-        // std::left aligns the text to the left, and std::setw() pads it with spaces 
-        // to exactly match the column widths of your header template.
         oss << std::left 
             << std::setw(11) << in.GetData().ticker
             << std::setw(16) << in.GetData().date
