@@ -8,13 +8,16 @@
 #include "../data/model_resources/earnings_struct_serialize_config.h"
 
 #include "context.h"
-#include "formatter.h"
+
+#include "interpreter/lexer.h"
+#include "interpreter/parser.h"
 
 #include "expressions/nonterminal/analyze_manual.h"
 
 #include <vector>
 #include <array>
 #include <iostream>
+#include <stdexcept>
 
 using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 
@@ -28,15 +31,32 @@ int main() {
     Context ctx;
     ctx.graph = model;
 
-    vectorforge::config::FindManyNodesConfig default_config;
-    std::array<double, 12> coords = {
-        0.15894109112297136,0.5602602689000122,0.22320469052531317,0.4602780726811463,1.0,0.29413482328662344,0.27283334788156455,7.69359936547264e-18,0.4870065208313257,0.5812886707384382,0.08821350275979944,0.6831275678442332
-    };
+    std::string input = "";
 
-    CoordExpression* c_ex = new CoordExpression(coords);
-    AnalyzeManualExpression am_ex(c_ex);
+    while (true) {
+        std::cout << ">>  ";
+        input = "";
+        std::getline(std::cin >> std::ws, input);
 
-    am_ex.Execute(ctx);
+        Lexer lex(input);
+        Parser parse(lex.Tokenize());
+
+        Expression* ast = nullptr;
+        
+        try {
+            Expression* ast = parse.Parse();
+            if (ast != nullptr) {
+                ast -> Execute(ctx);
+            }
+        } catch (const std::runtime_error& e) {
+            std::cerr << e.what() << std::endl;
+        }
+
+        if (ast != nullptr) {
+            delete ast;
+            ast = nullptr;
+        }
+    }
 
     return 0;
 }
