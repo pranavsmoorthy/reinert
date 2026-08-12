@@ -1,18 +1,21 @@
 #include "earnings_struct.h"
 #include "earnings_struct_serialize_config.h"
 
+#include "interpreter/preprocessor.h"
+
 #include "vectorforge/graph.h"
 #include "vectorforge/serializer.h"
 
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include <vector>
 #include <array>
 #include <string>
 
 int main() {
-    std::ifstream file("data/vectorforge_12d_dataset.csv");
+    std::ifstream file("data/vectorforge_12d_dataset_raw.csv");
 
     if (!file.is_open()) {
         std::cerr << "Error: Could not open the file!" << std::endl;
@@ -23,6 +26,7 @@ int main() {
     std::string line;
 
     std::getline(file, line);
+    Preprocessor p;
 
     while (std::getline(file, line)) {
         std::vector<std::string> row;
@@ -45,9 +49,14 @@ int main() {
 
         for (int i = 0; i < 12; i++) {
             coordinates[i] = std::stod(row[i + 4]);
+            std::cout << coordinates[i] << " ";
         }
 
-        earnings_model.AddNode(es, coordinates);
+        std::cout << std::endl;
+
+        std::array<double, 12> coordinates_recalculated = p.TransformCoordinates(coordinates);
+
+        earnings_model.AddNode(es, coordinates_recalculated);
     }
 
     EarningsStructSerializerConfig config;
