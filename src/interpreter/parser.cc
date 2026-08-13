@@ -97,11 +97,21 @@ Expression* Parser::ParseAnalyzeCommand() {
     throw std::runtime_error("Unknown ANALYZE mode: " + mode.value);
 }
 
+ClearExpression* Parser::ParseClearCommand() {
+    return new ClearExpression();
+}
+
 Expression* Parser::Parse() {
     if (IsAtEnd()) return nullptr;
 
-    if (Check(TokenType::IDENTIFIER) && Peek().value == "ANALYZE") {
-        return ParseAnalyzeCommand();
+    if (Check(TokenType::IDENTIFIER)) {
+        std::string value = Peek().value;
+
+        if (value == "ANALYZE") {
+            return ParseAnalyzeCommand();
+        } else if (value == "CLEAR") {
+            return ParseClearCommand();
+        }
     }
 
     throw std::runtime_error("Unrecognized command.");

@@ -4,6 +4,7 @@
 #include "expressions/terminal/coord_expression.h"
 #include "expressions/terminal/number_expression.h"
 #include "expressions/terminal/string_expression.h"
+#include "expressions/terminal/clear_expression.h"
 
 #include "token.h"
 
@@ -26,7 +27,9 @@ class Parser {
         NumberExpression* ParseNumber(); 
         StringExpression* ParseString(); 
         CoordExpression* ParseVector();
+
         Expression* ParseAnalyzeCommand();
+        ClearExpression* ParseClearCommand();
 
     public:
         explicit Parser(const std::vector<Token>& tokens);
