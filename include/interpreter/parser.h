@@ -1,8 +1,10 @@
 #pragma once
 
-#include "expression.h"
+#include "expressions/expression.h"
 #include "expressions/terminal/coord_expression.h"
-#include "expressions/nonterminal/analyze_manual.h"
+#include "expressions/terminal/number_expression.h"
+#include "expressions/terminal/string_expression.h"
+
 #include "token.h"
 
 #include <vector>
@@ -21,6 +23,8 @@ class Parser {
         
         Token Consume(TokenType type, const std::string& message);
 
+        NumberExpression* ParseNumber(); 
+        StringExpression* ParseString(); 
         CoordExpression* ParseVector();
         Expression* ParseAnalyzeCommand();
 

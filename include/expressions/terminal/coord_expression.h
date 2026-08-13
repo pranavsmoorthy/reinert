@@ -3,7 +3,7 @@
 #ifndef INCLUDE_TERMINAL_COORD_EXPRESSION_H_
 #define INCLUDE_TERMINAL_COORD_EXPRESSION_H_
 
-#include "expression.h"
+#include "expressions/expression.h"
 #include "context.h"
 
 #include <any>

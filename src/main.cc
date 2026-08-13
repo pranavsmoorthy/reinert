@@ -30,6 +30,10 @@ int main() {
 
     Context ctx;
     ctx.graph = model;
+    if (!ctx.cik_map.Load("data/dataset_resources/tickers.json")) {
+        std::cerr << "Terminal failed to boot: CIK database missing." << std::endl;
+        return 1;
+    }
 
     std::string input = "";
 

@@ -1,4 +1,10 @@
 #include "interpreter/parser.h"
+#include "interpreter/preprocessor.h"
+
+#include "expressions/nonterminal/analyze_manual.h"
+#include "expressions/nonterminal/analyze_ticker.h"
+
+#include <iostream>
 
 Parser::Parser(const std::vector<Token>& tokens) : tokens_(tokens), current_(0) {}
 
@@ -40,7 +46,38 @@ CoordExpression* Parser::ParseVector() {
 
     Consume(TokenType::R_BRACKET, "Expected ']' to end vector.");
     
-    return new CoordExpression(coords);
+    Preprocessor p;
+    std::array<double, 12> coords_transformed = p.TransformCoordinates(coords);
+
+    for (double d : coords_transformed) {
+        std::cout << d << " ";
+    }
+
+    std::cout << std::endl;
+
+    return new CoordExpression(coords_transformed);
+}
+
+NumberExpression* Parser::ParseNumber() {
+    Token token = Consume(TokenType::NUMBER, "Expected a number.");
+
+    try {
+        double value = std::stod(token.value);
+        
+        return new NumberExpression(value);
+        
+    } catch (const std::invalid_argument& e) {
+        throw std::runtime_error("Parser Error: Invalid number format encountered '" + token.value + "'");
+    } catch (const std::out_of_range& e) {
+        throw std::runtime_error("Parser Error: Number out of range '" + token.value + "'");
+    }
+}
+
+StringExpression* Parser::ParseString() {
+    Token token = Consume(TokenType::IDENTIFIER, "Expected a string literal.");
+    std::string value = token.value;
+
+    return new StringExpression(value);
 }
 
 Expression* Parser::ParseAnalyzeCommand() {
@@ -51,6 +88,11 @@ Expression* Parser::ParseAnalyzeCommand() {
     if (mode.value == "MANUAL") {
         CoordExpression* coords = ParseVector();
         return new AnalyzeManualExpression(coords); 
+    } else if (mode.value == "TICKER") {
+        StringExpression* ticker = ParseString();
+        NumberExpression* consecutive_eps_beats = ParseNumber();
+        NumberExpression* avg_eps_surprise = ParseNumber();
+        return new AnalyzeTickerExpression(ticker, consecutive_eps_beats, avg_eps_surprise);
     }
 
     throw std::runtime_error("Unknown ANALYZE mode: " + mode.value);

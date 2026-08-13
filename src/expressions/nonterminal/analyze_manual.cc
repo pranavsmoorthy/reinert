@@ -2,10 +2,10 @@
 #include "expressions/terminal/coord_expression.h"
 #include "expressions/terminal/string_expression.h"
 
-#include "expression.h"
+#include "expressions/expression.h"
 #include "context.h"
 #include "profile.h"
-#include "formatter.h"
+#include "utils/formatter.h"
 
 #include "vectorforge/node.h"
 #include "vectorforge/graph.h"
