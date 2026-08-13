@@ -5,6 +5,7 @@
 #include "expressions/terminal/number_expression.h"
 #include "expressions/terminal/string_expression.h"
 #include "expressions/terminal/clear_expression.h"
+#include "expressions/terminal/quit_expression.h"
 
 #include "token.h"
 
@@ -30,6 +31,7 @@ class Parser {
 
         Expression* ParseAnalyzeCommand();
         ClearExpression* ParseClearCommand();
+        QuitExpression* ParseQuitCommand();
 
     public:
         explicit Parser(const std::vector<Token>& tokens);

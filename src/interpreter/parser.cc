@@ -101,6 +101,10 @@ ClearExpression* Parser::ParseClearCommand() {
     return new ClearExpression();
 }
 
+QuitExpression* Parser::ParseQuitCommand() {
+    return new QuitExpression();
+}
+
 Expression* Parser::Parse() {
     if (IsAtEnd()) return nullptr;
 
@@ -111,6 +115,8 @@ Expression* Parser::Parse() {
             return ParseAnalyzeCommand();
         } else if (value == "CLEAR") {
             return ParseClearCommand();
+        } else if (value == "QUIT") {
+            return ParseQuitCommand();
         }
     }
 
