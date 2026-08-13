@@ -9,6 +9,8 @@
 #include "../data/model_resources/earnings_struct.h"
 
 #include "profile.h"
+
+#include "utils/app_config.h"
 #include "utils/cik_mapper.h"
 #include "utils/vector_builder.h"
 
@@ -19,6 +21,7 @@ struct Context {
     vectorforge::graph::Graph<EarningsStruct, double, 12, 16> graph;
     std::unordered_map<std::string, SearchProfile> search_profiles;
     CIKMapper cik_map;
+    AppConfig app_config;
 };
 
 #endif

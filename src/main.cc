@@ -14,6 +14,7 @@
 
 #include "expressions/nonterminal/analyze_manual.h"
 
+#include "utils/app_config.h"
 #include "utils/vector_builder.h"
 
 #include <vector>
@@ -23,47 +24,77 @@
 
 using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 
-int main() {
-    vectorforge::serializer::Serializer<EarningsStruct, double, 12, 16> ser;
-    EarningsStructSerializerConfig config;
+int main(int argc, char* argv[]) {
+    std::filesystem::path exe_path = std::filesystem::absolute(argv[0]);
+    std::filesystem::path project_root = exe_path.parent_path();
+    std::filesystem::current_path(project_root);
 
-    vectorforge::graph::Graph<EarningsStruct, double, 12, 16> model;
-    ser.Load(model, "data/earnings_model.bin", config);
+    AppConfig app_config;
+    std::string config_file = "config.json";
 
-    VectorBuilder::SetSpyVixTnxData();
-
-    Context ctx;
-    ctx.graph = model;
-    if (!ctx.cik_map.Load("data/dataset_resources/tickers.json")) {
-        std::cerr << "Terminal failed to boot: CIK database missing." << std::endl;
-        return 1;
+    if (std::filesystem::exists(config_file)) {
+        std::cout << "Loading configuration from " << config_file << "...\n";
+        try {
+            std::ifstream file(config_file);
+            nlohmann::json j;
+            file >> j;
+            app_config = j.get<AppConfig>(); 
+        } catch (const std::exception& e) {
+            std::cerr << "Warning: config.json is corrupted. Using defaults.\n";
+        }
+    } else {
+        std::cout << "No config.json found. Generating default configuration...\n";
+        std::ofstream file(config_file);
+        nlohmann::json j = app_config; 
+        file << j.dump(4);         
     }
 
-    std::string input = "";
+    Context ctx;
+    ctx.app_config = app_config;
 
-    while (true) {
-        std::cout << ">>  ";
-        input = "";
-        std::getline(std::cin >> std::ws, input);
+    if (app_config.FullyConfigured()) {
+        vectorforge::serializer::Serializer<EarningsStruct, double, 12, 16> ser;
+        EarningsStructSerializerConfig config;
 
-        Lexer lex(input);
-        Parser parse(lex.Tokenize());
+        vectorforge::graph::Graph<EarningsStruct, double, 12, 16> model;
+        ser.Load(model, "data/earnings_model.bin", config);
 
-        Expression* ast = nullptr;
-        
-        try {
-            Expression* ast = parse.Parse();
-            if (ast != nullptr) {
-                ast -> Execute(ctx);
+        VectorBuilder::SetSpyVixTnxData();
+
+        ctx.graph = model;
+        if (!ctx.cik_map.Load("data/dataset_resources/tickers.json")) {
+            std::cerr << "Terminal failed to boot: CIK database missing." << std::endl;
+            return 1;
+        }
+
+        std::string input = "";
+
+        while (true) {
+            std::cout << ">>  ";
+            input = "";
+            std::getline(std::cin >> std::ws, input);
+
+            Lexer lex(input);
+            Parser parse(lex.Tokenize());
+
+            Expression* ast = nullptr;
+            
+            try {
+                Expression* ast = parse.Parse();
+                if (ast != nullptr) {
+                    ast -> Execute(ctx);
+                }
+            } catch (const std::runtime_error& e) {
+                std::cerr << e.what() << std::endl;
             }
-        } catch (const std::runtime_error& e) {
-            std::cerr << e.what() << std::endl;
-        }
 
-        if (ast != nullptr) {
-            delete ast;
-            ast = nullptr;
+            if (ast != nullptr) {
+                delete ast;
+                ast = nullptr;
+            }
         }
+    } else {
+        std::cerr << "Some paths remain unconfigured. Run CONFIGURE to set these paths" << std::endl;
     }
 
     return 0;
