@@ -14,6 +14,8 @@
 
 #include "expressions/nonterminal/analyze_manual.h"
 
+#include "utils/vector_builder.h"
+
 #include <vector>
 #include <array>
 #include <iostream>
@@ -27,6 +29,8 @@ int main() {
 
     vectorforge::graph::Graph<EarningsStruct, double, 12, 16> model;
     ser.Load(model, "data/earnings_model.bin", config);
+
+    VectorBuilder::SetSpyVixTnxData();
 
     Context ctx;
     ctx.graph = model;

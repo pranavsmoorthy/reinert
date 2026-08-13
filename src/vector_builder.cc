@@ -45,7 +45,7 @@ void VectorBuilder::SetJsonData(const std::string& ticker, const Context& ctx) {
 
 void VectorBuilder::SetSpyVixTnxData() {
     spy_chart_json_ = Retriever::FetchYFinanceJson("SPY");
-    vix_chart_json_ = Retriever::FetchSECEdgarJson("%5Evix");
+    vix_chart_json_ = Retriever::FetchYFinanceJson("%5Evix");
     tnx_chart_json_ = Retriever::FetchYFinanceJson("%5Etnx");
 }
 

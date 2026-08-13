@@ -48,12 +48,6 @@ std::any AnalyzeTickerExpression::Execute(const Context& ctx) const {
 
     VectorBuilder::SetJsonData(ticker, ctx);
 
-    for (double d : VectorBuilder::MakeCoords(consecutive_eps_beats, avg_eps_surprise)) {
-        std::cout << d << " ";
-    }
-
-    std::cout << std::endl;
-
     std::array<double, 12> coords = Preprocessor::TransformCoordinates(VectorBuilder::MakeCoords(consecutive_eps_beats, avg_eps_surprise));
 
     SearchProfile default_profile(ctx); 
