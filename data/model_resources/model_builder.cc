@@ -26,7 +26,6 @@ int main() {
     std::string line;
 
     std::getline(file, line);
-    Preprocessor p;
 
     while (std::getline(file, line)) {
         std::vector<std::string> row;
@@ -54,8 +53,7 @@ int main() {
 
         std::cout << std::endl;
 
-        std::array<double, 12> coordinates_recalculated = p.TransformCoordinates(coordinates);
-
+        std::array<double, 12> coordinates_recalculated = Preprocessor::TransformCoordinates(coordinates);
         earnings_model.AddNode(es, coordinates_recalculated);
     }
 
