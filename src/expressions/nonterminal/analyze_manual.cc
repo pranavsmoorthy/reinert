@@ -52,12 +52,10 @@ std::any AnalyzeManualExpression::Execute(const Context& ctx) const {
     }
 
     std::vector<NodeType*> closest = ctx.graph.FindNearestKNodes(coords, *profile);
-    Formatter format;
-
     std::cout << "Ticker     Date            Similarity     Deviation     Went Up?     Percent Change" << std::endl;
 
     for (NodeType* n : closest) {
-        std::cout << format.FormatNode(*n, coords) << std::endl;
+        std::cout << Formatter::FormatNode(*n, coords) << std::endl;
     }
 
     return {};
