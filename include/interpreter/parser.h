@@ -33,7 +33,9 @@ class Parser {
         ClearExpression* ParseClearCommand();
         QuitExpression* ParseQuitCommand();
 
+        bool configure_mode_;
+
     public:
-        explicit Parser(const std::vector<Token>& tokens);
+        explicit Parser(const std::vector<Token>& tokens, bool config_mode = false);
         Expression* Parse(); 
 };

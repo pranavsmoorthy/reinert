@@ -74,13 +74,13 @@ int main(int argc, char* argv[]) {
             input = "";
             std::getline(std::cin >> std::ws, input);
 
-            Lexer lex(input);
-            Parser parse(lex.Tokenize());
+            Lexer* lex = new Lexer(input);
+            Parser* parse = new Parser(lex -> Tokenize());
 
             Expression* ast = nullptr;
             
             try {
-                Expression* ast = parse.Parse();
+                Expression* ast = parse -> Parse();
                 if (ast != nullptr) {
                     ast -> Execute(ctx);
                 }
@@ -92,9 +92,49 @@ int main(int argc, char* argv[]) {
                 delete ast;
                 ast = nullptr;
             }
+
+            delete lex;
+            lex = nullptr;
+
+            delete parse;
+            parse = nullptr;
         }
     } else {
         std::cerr << "Some paths remain unconfigured. Run CONFIGURE to set these paths" << std::endl;
+        std::cerr << "Can only run CONFIGURE, CLEAR, and QUIT" << std::endl;
+        std::cerr << "Run QUIT after configuring" << std::endl;
+        std::string input = "";
+
+        while (true) {
+            std::cout << "[CONFIGURE MODE] >>  ";
+            input = "";
+            std::getline(std::cin >> std::ws, input);
+
+            Lexer* lex = new Lexer(input);
+            Parser* parse = new Parser(lex -> Tokenize(), true);
+
+            Expression* ast = nullptr;
+            
+            try {
+                Expression* ast = parse -> Parse();
+                if (ast != nullptr) {
+                    ast -> Execute(ctx);
+                }
+            } catch (const std::runtime_error& e) {
+                std::cerr << e.what() << std::endl;
+            }
+
+            if (ast != nullptr) {
+                delete ast;
+                ast = nullptr;
+            }
+
+            delete lex;
+            lex = nullptr;
+
+            delete parse;
+            parse = nullptr;
+        }
     }
 
     return 0;

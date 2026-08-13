@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-Parser::Parser(const std::vector<Token>& tokens) : tokens_(tokens), current_(0) {}
+Parser::Parser(const std::vector<Token>& tokens, bool config_mode) : tokens_(tokens), current_(0), configure_mode_(config_mode) {}
 
 Token Parser::Peek() const {
     return tokens_[current_];
@@ -111,7 +111,7 @@ Expression* Parser::Parse() {
     if (Check(TokenType::IDENTIFIER)) {
         std::string value = Peek().value;
 
-        if (value == "ANALYZE") {
+        if (value == "ANALYZE" && !configure_mode_) {
             return ParseAnalyzeCommand();
         } else if (value == "CLEAR") {
             return ParseClearCommand();
@@ -120,5 +120,11 @@ Expression* Parser::Parse() {
         }
     }
 
-    throw std::runtime_error("Unrecognized command.");
+    if (configure_mode_) {
+        throw std::runtime_error("Unrecognized command. App is still in configure mode, can only run CONFIGURE, CLEAR, and QUIT");
+    } else {
+        throw std::runtime_error("Unrecognized command.");
+    }
+
+    return nullptr;
 }
