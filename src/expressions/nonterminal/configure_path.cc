@@ -1,4 +1,4 @@
-#include "expressions/nonterminal/configure.h"
+#include "expressions/nonterminal/configure_path.h"
 #include "expressions/terminal/string_expression.h"
 
 #include <iostream>

@@ -97,14 +97,18 @@ Expression* Parser::ParseAnalyzeCommand() {
     throw std::runtime_error("Unknown ANALYZE mode: " + mode.value);
 }
 
-ConfigureExpression* Parser::ParseConfigureCommand() {
+Expression* Parser::ParseConfigureCommand() {
     Advance();
     
-    StringExpression* cik_exp = ParseString();
-    StringExpression* model_exp = ParseString();
-    StringExpression* profiles_exp = ParseString();
+    if (Peek().value == "VIEW") {
+        return new ViewConfigExpression();
+    } else {
+        StringExpression* cik_exp = ParseString();
+        StringExpression* model_exp = ParseString();
+        StringExpression* profiles_exp = ParseString();
 
-    return new ConfigureExpression(cik_exp, model_exp, profiles_exp);
+        return new ConfigureExpression(cik_exp, model_exp, profiles_exp);
+    }
 }
 
 ClearExpression* Parser::ParseClearCommand() {
