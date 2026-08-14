@@ -119,6 +119,23 @@ QuitExpression* Parser::ParseQuitCommand() {
     return new QuitExpression();
 }
 
+Expression* Parser::ParseProfileCommand() {
+    Advance();
+    Token mode = Consume(TokenType::IDENTIFIER, "Expected mode after PROFILE (e.g., ADD).");
+
+    if (mode.value == "ADD") {
+        StringExpression* name = ParseString();
+        NumberExpression* nearest_clusters = ParseNumber();
+        NumberExpression* nearest_nodes = ParseNumber();
+        NumberExpression* clusters_ef = ParseNumber();
+        NumberExpression* node_ef = ParseNumber();
+
+        return new AddProfileExpression(name, nearest_clusters, nearest_nodes, clusters_ef, node_ef);
+    }
+
+    throw std::runtime_error("Unknown PROFILE mode: " + mode.value);
+}
+
 Expression* Parser::Parse() {
     if (IsAtEnd()) return nullptr;
 
@@ -127,6 +144,8 @@ Expression* Parser::Parse() {
 
         if (value == "ANALYZE" && !configure_mode_) {
             return ParseAnalyzeCommand();
+        } else if (value == "PROFILE") {
+            return ParseProfileCommand();
         } else if (value == "CONFIGURE") {
             return ParseConfigureCommand();
         } else if (value == "CLEAR") {

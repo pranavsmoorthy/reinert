@@ -25,7 +25,6 @@ public:
     bool Load(const std::string& filepath) {
         std::ifstream file(filepath);
         if (!file.is_open()) {
-            std::cerr << "Error: Could not open CIK mapping file: " << filepath << std::endl;
             return false;
         }
 

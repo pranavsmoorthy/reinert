@@ -12,9 +12,9 @@ struct Context;
 
 struct SearchProfile : public vectorforge::config::FindManyNodesConfig {
     std::string name = "";
-    const Context& ctx;
+    Context& ctx;
 
-    SearchProfile(const Context& context) : ctx(context) {}
+    SearchProfile(Context& context) : ctx(context) {}
     void AdditionalValidate() const override;
 };
 

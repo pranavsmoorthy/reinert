@@ -8,6 +8,7 @@
 #include "expressions/terminal/clear_expression.h"
 #include "expressions/terminal/quit_expression.h"
 #include "expressions/terminal/view_configs.h"
+#include "expressions/nonterminal/add_profile.h"
 
 #include "token.h"
 
@@ -36,6 +37,7 @@ class Parser {
         Expression* ParseViewConfigCommand();
         ClearExpression* ParseClearCommand();
         QuitExpression* ParseQuitCommand();
+        Expression* ParseProfileCommand();
 
         bool configure_mode_;
 
