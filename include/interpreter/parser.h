@@ -10,6 +10,7 @@
 #include "expressions/terminal/view_configs.h"
 #include "expressions/nonterminal/add_profile.h"
 #include "expressions/terminal/view_profiles_expression.h"
+#include "expressions/nonterminal/view_profile_expression.h"
 
 #include "token.h"
 

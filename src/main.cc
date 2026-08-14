@@ -21,6 +21,7 @@
 #include <array>
 #include <iostream>
 #include <stdexcept>
+
 #include <nlohmann/json.hpp>
 
 using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;

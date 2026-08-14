@@ -137,7 +137,16 @@ Expression* Parser::ParseProfileCommand() {
 
         return new AddProfileExpression(name, nearest_clusters, nearest_nodes, clusters_ef, node_ef);
     } else if (mode.value == "VIEW") {
-        return new ViewProfilesExpression();
+        Token view_mode = Consume(TokenType::IDENTIFIER, "Expected mode after PROFILE VIEW (e.g., ONE).");
+
+        if (view_mode.value == "ALL") {
+            return new ViewProfilesExpression();
+        } else if (view_mode.value == "ONE") {
+            StringExpression* profile = ParseString();
+            return new ViewProfileExpression(profile);
+        }
+
+        throw std::runtime_error("Unknown PROFILE VIEW mode: " + mode.value);
     }
 
     throw std::runtime_error("Unknown PROFILE mode: " + mode.value);
