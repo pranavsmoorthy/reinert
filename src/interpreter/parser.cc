@@ -131,6 +131,8 @@ Expression* Parser::ParseProfileCommand() {
         NumberExpression* node_ef = ParseNumber();
 
         return new AddProfileExpression(name, nearest_clusters, nearest_nodes, clusters_ef, node_ef);
+    } else if (mode.value == "VIEW") {
+        return new ViewProfilesExpression();
     }
 
     throw std::runtime_error("Unknown PROFILE mode: " + mode.value);
@@ -144,7 +146,7 @@ Expression* Parser::Parse() {
 
         if (value == "ANALYZE" && !configure_mode_) {
             return ParseAnalyzeCommand();
-        } else if (value == "PROFILE") {
+        } else if (value == "PROFILE" && !configure_mode_) {
             return ParseProfileCommand();
         } else if (value == "CONFIGURE") {
             return ParseConfigureCommand();
