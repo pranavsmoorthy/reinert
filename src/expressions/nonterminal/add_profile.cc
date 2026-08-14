@@ -58,6 +58,7 @@ std::any AddProfileExpression::Execute(Context& ctx) const {
         sp.nearest_nodes = static_cast<std::size_t>(vals[1]);
         sp.cluster_ef = static_cast<std::size_t>(vals[2]);
         sp.node_ef = static_cast<std::size_t>(vals[3]);
+        sp.Validate();
 
         ctx.search_profiles.insert({sp.name, sp});
     } catch (std::exception& e) {
