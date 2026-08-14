@@ -4,6 +4,7 @@
 #include "expressions/terminal/coord_expression.h"
 #include "expressions/terminal/number_expression.h"
 #include "expressions/terminal/string_expression.h"
+#include "expressions/nonterminal/configure.h"
 #include "expressions/terminal/clear_expression.h"
 #include "expressions/terminal/quit_expression.h"
 
@@ -30,6 +31,7 @@ class Parser {
         CoordExpression* ParseVector();
 
         Expression* ParseAnalyzeCommand();
+        ConfigureExpression* ParseConfigureCommand();
         ClearExpression* ParseClearCommand();
         QuitExpression* ParseQuitCommand();
 

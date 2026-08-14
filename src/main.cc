@@ -21,6 +21,7 @@
 #include <array>
 #include <iostream>
 #include <stdexcept>
+#include <nlohmann/json.hpp>
 
 using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 
@@ -57,12 +58,12 @@ int main(int argc, char* argv[]) {
         EarningsStructSerializerConfig config;
 
         vectorforge::graph::Graph<EarningsStruct, double, 12, 16> model;
-        ser.Load(model, "data/earnings_model.bin", config);
+        ser.Load(model, app_config.graph_model_path, config);
 
         VectorBuilder::SetSpyVixTnxData();
 
         ctx.graph = model;
-        if (!ctx.cik_map.Load("data/dataset_resources/tickers.json")) {
+        if (!ctx.cik_map.Load(app_config.cik_map_path)) {
             std::cerr << "Terminal failed to boot: CIK database missing." << std::endl;
             return 1;
         }

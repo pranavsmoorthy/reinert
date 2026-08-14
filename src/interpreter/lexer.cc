@@ -33,7 +33,7 @@ bool Lexer::IsDigit(char c) const {
 bool Lexer::IsAlpha(char c) const {
     return (c >= 'a' && c <= 'z') || 
            (c >= 'A' && c <= 'Z') || 
-            c == '_';
+            c == '_' || c == '/' || c == '.';
 }
 
 std::vector<Token> Lexer::Tokenize() {
