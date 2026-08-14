@@ -99,23 +99,28 @@ Expression* Parser::ParseAnalyzeCommand() {
 
 Expression* Parser::ParseConfigureCommand() {
     Advance();
+    Token mode = Consume(TokenType::IDENTIFIER, "Expected a CONFIGURE mode (e.g. EDIT)");
     
-    if (Peek().value == "VIEW") {
+    if (mode.value == "VIEW") {
         return new ViewConfigExpression();
-    } else {
+    } else if (mode.value == "EDIT") {
         StringExpression* cik_exp = ParseString();
         StringExpression* model_exp = ParseString();
         StringExpression* profiles_exp = ParseString();
 
         return new ConfigureExpression(cik_exp, model_exp, profiles_exp);
     }
+
+    throw std::runtime_error("Unknown CONFIGURE mode: " + mode.value);
 }
 
 ClearExpression* Parser::ParseClearCommand() {
+    Advance();
     return new ClearExpression();
 }
 
 QuitExpression* Parser::ParseQuitCommand() {
+    Advance();
     return new QuitExpression();
 }
 
@@ -138,11 +143,11 @@ Expression* Parser::ParseProfileCommand() {
     throw std::runtime_error("Unknown PROFILE mode: " + mode.value);
 }
 
-Expression* Parser::Parse() {
-    if (IsAtEnd()) return nullptr;
+Expression* Parser::ParseNext() {
+    std::string value;
 
     if (Check(TokenType::IDENTIFIER)) {
-        std::string value = Peek().value;
+        value = Peek().value;
 
         if (value == "ANALYZE" && !configure_mode_) {
             return ParseAnalyzeCommand();
@@ -157,11 +162,31 @@ Expression* Parser::Parse() {
         }
     }
 
+    std::string error_string = "Unrecognized command " + value + ".";
     if (configure_mode_) {
-        throw std::runtime_error("Unrecognized command. App is still in configure mode, can only run CONFIGURE, CLEAR, and QUIT");
-    } else {
-        throw std::runtime_error("Unrecognized command.");
+        error_string += "\nApp is still in configure mode, can only run CONFIGURE, CLEAR, and QUIT";
     }
 
-    return nullptr;
+    throw std::runtime_error(error_string);
+}
+
+Expression* Parser::Parse() {
+    if (IsAtEnd()) return nullptr;
+
+    Expression* ast = nullptr;
+    Expression* current_exp = nullptr;
+
+    while (!IsAtEnd()) {
+        Expression* next_exp = ParseNext();
+
+        if (ast == nullptr && current_exp == nullptr) {
+            ast = next_exp;
+            current_exp = next_exp;
+        } else {
+            current_exp -> SetNextExpression(next_exp);
+            current_exp = current_exp -> GetNextExpression();
+        }
+    }
+    
+    return ast;
 }

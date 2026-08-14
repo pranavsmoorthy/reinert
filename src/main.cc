@@ -93,8 +93,11 @@ int main(int argc, char* argv[]) {
             
             try {
                 Expression* ast = parse -> Parse();
+
                 if (ast != nullptr) {
-                    ast -> Execute(ctx);
+                    ast -> Run(ctx);
+                } else {
+                    std::cout << "Couldn't find expression" << std::endl;
                 }
             } catch (const std::runtime_error& e) {
                 std::cerr << e.what() << std::endl;
@@ -130,7 +133,7 @@ int main(int argc, char* argv[]) {
             try {
                 Expression* ast = parse -> Parse();
                 if (ast != nullptr) {
-                    ast -> Execute(ctx);
+                    ast -> Run(ctx);
                 }
             } catch (const std::runtime_error& e) {
                 std::cerr << e.what() << std::endl;

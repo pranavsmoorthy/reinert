@@ -30,7 +30,7 @@ std::any ConfigureExpression::Execute(Context& ctx) const {
 
     ctx.updated_config = true;
 
-    std::cout << "Run QUIT and reopen application to see changes" << std::endl;
+    std::cout << "Configured Successfully. Run QUIT and reopen application to see changes" << std::endl;
 
     return {};
 }

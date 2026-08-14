@@ -42,6 +42,8 @@ class Parser {
 
         bool configure_mode_;
 
+        Expression* ParseNext();
+
     public:
         explicit Parser(const std::vector<Token>& tokens, bool config_mode = false);
         Expression* Parse(); 
