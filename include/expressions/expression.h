@@ -12,7 +12,7 @@
 class Expression {
     public:
         virtual ~Expression() = default;
-        virtual std::any Execute(const Context& ctx) const = 0;
+        virtual std::any Execute(Context& ctx) const = 0;
 
         void ThrowCannotExecuteCommand(const std::string& additional_info) const {
             throw std::logic_error("Command could not execute: " + additional_info);

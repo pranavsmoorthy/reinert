@@ -15,7 +15,7 @@ class StringExpression : public Expression {
     
     public:
         StringExpression(const std::string& s);
-        std::any Execute(const Context& /*ctx*/) const override;
+        std::any Execute(Context& /*ctx*/) const override;
 };
 
 #endif

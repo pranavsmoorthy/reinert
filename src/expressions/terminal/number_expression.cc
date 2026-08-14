@@ -7,6 +7,6 @@ NumberExpression::NumberExpression(double i) {
     value_ = i;
 }
 
-std::any NumberExpression::Execute(const Context& /*ctx*/) const {
+std::any NumberExpression::Execute(Context& /*ctx*/) const {
     return value_;
 }

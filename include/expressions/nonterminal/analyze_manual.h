@@ -21,7 +21,7 @@ class AnalyzeManualExpression : public Expression {
         AnalyzeManualExpression(CoordExpression* coords, StringExpression* profile = nullptr);
         ~AnalyzeManualExpression();
 
-        std::any Execute(const Context& ctx) const override;
+        std::any Execute(Context& ctx) const override;
 };
 
 #endif

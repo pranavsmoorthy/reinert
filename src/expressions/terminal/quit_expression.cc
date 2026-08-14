@@ -6,7 +6,7 @@
 #include <any>
 #include <cstdlib>
 
-std::any QuitExpression::Execute(const Context& /*ctx*/) const {
+std::any QuitExpression::Execute(Context& /*ctx*/) const {
     std::exit(EXIT_SUCCESS);
     return {};
 }

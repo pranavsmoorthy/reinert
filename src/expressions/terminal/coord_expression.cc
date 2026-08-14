@@ -9,6 +9,6 @@ CoordExpression::CoordExpression(const std::array<double, 12>& a) {
     value_ = a;
 }
 
-std::any CoordExpression::Execute(const Context& /*ctx*/) const {
+std::any CoordExpression::Execute(Context& /*ctx*/) const {
     return value_;
 }

@@ -22,6 +22,8 @@ struct Context {
     std::unordered_map<std::string, SearchProfile> search_profiles;
     CIKMapper cik_map;
     AppConfig app_config;
+
+    bool updated_config = false;
 };
 
 #endif

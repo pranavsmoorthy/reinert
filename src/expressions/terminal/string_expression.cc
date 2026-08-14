@@ -8,6 +8,6 @@ StringExpression::StringExpression(const std::string& s) {
     value_ = s;
 }
 
-std::any StringExpression::Execute(const Context& /*ctx*/) const {
+std::any StringExpression::Execute(Context& /*ctx*/) const {
     return value_;
 }

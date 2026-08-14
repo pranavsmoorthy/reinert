@@ -15,7 +15,7 @@ class CoordExpression : public Expression {
     
     public:
         CoordExpression(const std::array<double, 12>& a);
-        std::any Execute(const Context& /*ctx*/) const override;
+        std::any Execute(Context& /*ctx*/) const override;
 };
 
 #endif

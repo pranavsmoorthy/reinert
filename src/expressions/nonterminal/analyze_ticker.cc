@@ -35,7 +35,7 @@ AnalyzeTickerExpression::~AnalyzeTickerExpression() {
     profile_expression_ = nullptr;
 }
 
-std::any AnalyzeTickerExpression::Execute(const Context& ctx) const {
+std::any AnalyzeTickerExpression::Execute(Context& ctx) const {
     if (ticker_expression_ == nullptr) {
         ThrowCannotExecuteCommand("Ticker cannot be null");
     }

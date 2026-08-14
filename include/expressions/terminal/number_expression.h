@@ -14,7 +14,7 @@ class NumberExpression : public Expression {
     
     public:
         NumberExpression(double i);
-        std::any Execute(const Context& /*ctx*/) const override;
+        std::any Execute(Context& /*ctx*/) const override;
 };
 
 #endif

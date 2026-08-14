@@ -28,7 +28,7 @@ class AnalyzeTickerExpression : public Expression {
             StringExpression* profile = nullptr);
         ~AnalyzeTickerExpression();
 
-        std::any Execute(const Context& ctx) const override;
+        std::any Execute(Context& ctx) const override;
 };
 
 #endif

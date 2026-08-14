@@ -30,7 +30,7 @@ AnalyzeManualExpression::~AnalyzeManualExpression() {
     profile_expression_ = nullptr;
 }
 
-std::any AnalyzeManualExpression::Execute(const Context& ctx) const {
+std::any AnalyzeManualExpression::Execute(Context& ctx) const {
     if (coord_expression_ == nullptr) {
         ThrowCannotExecuteCommand("Coords cannot be null");
     }
