@@ -34,7 +34,6 @@ int main(int argc, char* argv[]) {
     std::string config_file = "config.json";
 
     if (std::filesystem::exists(config_file)) {
-        std::cout << "Loading configuration from " << config_file << "...\n";
         try {
             std::ifstream file(config_file);
             nlohmann::json j;
@@ -53,22 +52,34 @@ int main(int argc, char* argv[]) {
     Context ctx;
     ctx.app_config = app_config;
 
+    bool model_loaded = false;
+    bool cik_loaded = false;
+
     if (app_config.FullyConfigured()) {
         vectorforge::serializer::Serializer<EarningsStruct, double, 12, 16> ser;
         EarningsStructSerializerConfig config;
 
         vectorforge::graph::Graph<EarningsStruct, double, 12, 16> model;
-        ser.Load(model, app_config.graph_model_path, config);
 
-        VectorBuilder::SetSpyVixTnxData();
-
-        ctx.graph = model;
+        try {
+            ser.Load(model, app_config.graph_model_path, config);
+            ctx.graph = model;
+            model_loaded = true;
+        } catch (const std::runtime_error&) {
+            std::cerr << "Terminal failed to boot: Could not load model. Try reconfiguring the model path." << std::endl;
+        }
+        
         if (!ctx.cik_map.Load(app_config.cik_map_path)) {
-            std::cerr << "Terminal failed to boot: CIK database missing." << std::endl;
-            return 1;
+            std::cerr << "Terminal failed to boot: CIK database missing. Try reconfiguring the CIK path." << std::endl;
+        } else {
+            cik_loaded = true;
         }
 
+    }
+
+    if (model_loaded && cik_loaded) {
         std::string input = "";
+        VectorBuilder::SetSpyVixTnxData();
 
         while (true) {
             std::cout << ">>  ";
@@ -101,7 +112,7 @@ int main(int argc, char* argv[]) {
             parse = nullptr;
         }
     } else {
-        std::cerr << "Some paths remain unconfigured. Run CONFIGURE to set these paths" << std::endl;
+        std::cerr << "Some paths remain unconfigured or improperly set. Run CONFIGURE to set these paths" << std::endl;
         std::cerr << "Can only run CONFIGURE, CLEAR, and QUIT" << std::endl;
         std::cerr << "Run QUIT after configuring" << std::endl;
         std::string input = "";
