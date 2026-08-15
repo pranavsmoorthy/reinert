@@ -148,6 +148,9 @@ Expression* Parser::ParseProfileCommand() {
         }
 
         throw std::runtime_error("Unknown PROFILE VIEW mode: " + mode.value);
+    } else if (mode.value == "REMOVE") {
+        StringExpression* profile_exp = ParseString();
+        return new RemoveProfileExpression(profile_exp);
     }
 
     throw std::runtime_error("Unknown PROFILE mode: " + mode.value);

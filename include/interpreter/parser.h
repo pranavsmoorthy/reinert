@@ -12,6 +12,7 @@
 #include "expressions/terminal/view_profiles_expression.h"
 #include "expressions/nonterminal/view_profile_expression.h"
 #include "expressions/nonterminal/analyze_expression.h"
+#include "expressions/nonterminal/remove_profile_expression.h"
 
 #include "token.h"
 

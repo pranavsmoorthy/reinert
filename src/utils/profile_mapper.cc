@@ -75,3 +75,25 @@ const std::vector<std::string> ProfileMapper::GetAllProfiles() {
 
     return profile_names;
 }
+
+void ProfileMapper::DeleteProfile(const std::string& profile_name, Context& ctx) {
+    auto it = search_profiles_.find(profile_name);
+    if (it == search_profiles_.end()) {
+        std::cerr << "Profile '" << profile_name << "' not found in memory." << std::endl;
+    }
+
+    search_profiles_.erase(it);
+
+    try {
+        fs::path filepath = fs::path(ctx.app_config.search_profiles_path) / (profile_name + ".json");
+        
+        if (fs::exists(filepath)) {
+            fs::remove(filepath);
+        } else {
+            std::cerr << "Profile removed from memory, but file " 
+                      << filepath << " was not found on disk." << std::endl;
+        }
+    } catch (const fs::filesystem_error& e) {
+        std::cerr << "Filesystem Error while deleting profile: " << e.what() << std::endl;
+    }
+}

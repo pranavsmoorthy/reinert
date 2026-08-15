@@ -15,4 +15,5 @@ public:
     void AddProfile(const SearchProfile& profile);
     const SearchProfile& GetProfile(const std::string& profile_name) const;
     const std::vector<std::string> GetAllProfiles();
+    void DeleteProfile(const std::string& profile_name, Context& ctx);
 };
