@@ -12,14 +12,14 @@
 
 #include "utils/app_config.h"
 #include "utils/cik_mapper.h"
-#include "utils/vector_builder.h"
+#include "utils/profile_mapper.h"
 
 #include <string>
 #include <unordered_map>
 
 struct Context {
     vectorforge::graph::Graph<EarningsStruct, double, 12, 16> graph;
-    std::unordered_map<std::string, SearchProfile> search_profiles;
+    ProfileMapper profile_map;
     CIKMapper cik_map;
     AppConfig app_config;
 

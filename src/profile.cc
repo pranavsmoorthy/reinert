@@ -32,11 +32,9 @@ void from_json(const nlohmann::json& j, SearchProfile& profile) {
 
 void SearchProfile::AdditionalValidate() const {
     if (!verified) {
-        auto it = ctx.search_profiles.find(name);
-
-        if (it != ctx.search_profiles.end()) {
-            throw std::logic_error("Search Profile with given name " + name + " already exists");
-        }
-
+        try {
+            ctx.profile_map.GetProfile(name);
+            throw std::runtime_error("Search Profile with given name " + name + " already exists");
+        } catch (const std::runtime_error&) {}
     }
 }

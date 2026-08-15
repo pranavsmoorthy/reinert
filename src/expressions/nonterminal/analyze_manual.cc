@@ -41,13 +41,7 @@ std::any AnalyzeManualExpression::Execute(Context& ctx) const {
         profile = &default_profile;
     } else {
         std::string profile_name = std::any_cast<std::string>(profile_expression -> Execute(ctx));
-        auto it = ctx.search_profiles.find(profile_name);
-
-        if (it == ctx.search_profiles.end()) {
-            ThrowCannotExecuteCommand("Profile could not be found");
-        } else {
-            profile = &(it -> second);
-        }
+        profile = &ctx.profile_map.GetProfile(profile_name);
     }
 
     std::vector<NodeType*> closest = ctx.graph.FindNearestKNodes(coords, *profile);

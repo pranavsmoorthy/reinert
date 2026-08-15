@@ -8,6 +8,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <iostream>
+#include <fstream>
 
 AddProfileExpression::AddProfileExpression(
     StringExpression* name,
@@ -64,7 +65,7 @@ std::any AddProfileExpression::Execute(Context& ctx) const {
 
         sp.verified = true;
 
-        ctx.search_profiles.insert({sp.name, sp});
+        ctx.profile_map.AddProfile(sp);
 
         nlohmann::json output_json = sp;
         std::string output_path = ctx.app_config.search_profiles_path;

@@ -13,19 +13,14 @@ ViewProfileExpression::~ViewProfileExpression() {
 }
 
 std::any ViewProfileExpression::Execute(Context& ctx) const {
-    auto it = ctx.search_profiles.find(std::any_cast<std::string>(profile_expression_ -> Execute(ctx))); 
+    std::string profile_name = std::any_cast<std::string>(profile_expression_ -> Execute(ctx));
+    SearchProfile profile = ctx.profile_map.GetProfile(profile_name);
 
-    if (it != ctx.search_profiles.end()) {
-        SearchProfile profile = it -> second;
-
-        std::cout << "Name             : " << profile.name << std::endl;
-        std::cout << "Nearest Clusters : " << profile.nearest_clusters << std::endl;
-        std::cout << "Nearest Nodes    : " << profile.nearest_nodes << std::endl;
-        std::cout << "Cluster EF       : " << profile.cluster_ef << std::endl;
-        std::cout << "Node EF          : " << profile.node_ef << std::endl;
-    } else {
-        std::cerr << "Profile not found." << std::endl;
-    }
+    std::cout << "Name             : " << profile.name << std::endl;
+    std::cout << "Nearest Clusters : " << profile.nearest_clusters << std::endl;
+    std::cout << "Nearest Nodes    : " << profile.nearest_nodes << std::endl;
+    std::cout << "Cluster EF       : " << profile.cluster_ef << std::endl;
+    std::cout << "Node EF          : " << profile.node_ef << std::endl;
 
     return {};
 }

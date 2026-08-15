@@ -55,6 +55,7 @@ int main(int argc, char* argv[]) {
 
     bool model_loaded = false;
     bool cik_loaded = false;
+    bool profiles_loaded = false;
 
     if (app_config.FullyConfigured()) {
         vectorforge::serializer::Serializer<EarningsStruct, double, 12, 16> ser;
@@ -76,9 +77,14 @@ int main(int argc, char* argv[]) {
             cik_loaded = true;
         }
 
+        if (!ctx.profile_map.Load(app_config.search_profiles_path, ctx)) {
+            std::cerr << "Terminal failed to boot: CIK database missing. Try reconfiguring the Profile path." << std::endl;
+        } else {
+            profiles_loaded = true;
+        }
     }
 
-    if (model_loaded && cik_loaded) {
+    if (model_loaded && cik_loaded && profiles_loaded) {
         std::string input = "";
         VectorBuilder::SetSpyVixTnxData();
 
