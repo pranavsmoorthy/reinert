@@ -72,6 +72,18 @@ std::any AnalyzeTickerExpression::Execute(Context& ctx) const {
         std::cout << Formatter::FormatNode(*n, coords) << std::endl;
     }
 
+
+    int went_up = 0;
+
+    for (NodeType* n : closest) {
+        std::cout << Formatter::FormatNode(*n, coords) << std::endl;
+
+        if ((n->GetData()).move_pct > 0) {
+            went_up++;
+        }
+    }
+
+    std::cout << "Went Up: " << went_up << " out of " << profile->nearest_nodes << std::endl;
+
     return {};
 }
-//PROFILE ADD A 1 2 3 4 ANALYZE TICKER CSCO 0 0 WITH A

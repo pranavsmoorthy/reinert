@@ -47,9 +47,17 @@ std::any AnalyzeManualExpression::Execute(Context& ctx) const {
     std::vector<NodeType*> closest = ctx.graph.FindNearestKNodes(coords, *profile);
     std::cout << "Ticker     Date            Similarity     Deviation     Went Up?     Percent Change" << std::endl;
 
+    int went_up = 0;
+
     for (NodeType* n : closest) {
         std::cout << Formatter::FormatNode(*n, coords) << std::endl;
+
+        if ((n->GetData()).move_pct > 0) {
+            went_up++;
+        }
     }
+
+    std::cout << "Went Up: " << went_up << " out of " << profile->nearest_nodes << std::endl;
 
     return {};
 }

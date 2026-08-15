@@ -17,7 +17,7 @@ std::any QuitExpression::Execute(Context& ctx) const {
     std::ofstream file("config.json");
 
         if (!file.is_open()) {
-            std::cerr << "Error: Could not open config.json to save new configuration.\n";
+            std::cerr << "Could not open config.json to save new configuration.\n";
         } else {
             file << j.dump(4);
             std::cout << "Successfully saved new configuration to config.json.\n";
