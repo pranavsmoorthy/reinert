@@ -13,7 +13,7 @@ struct AppConfig {
 
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(AppConfig, cik_map_path, graph_model_path, search_profiles_path)
 
-    bool FullyConfigured() {
+    bool FullyConfigured() const {
         return (cik_map_path != "NOCONF") &&
                (graph_model_path != "NOCONF") &&
                (search_profiles_path != "NOCONF");

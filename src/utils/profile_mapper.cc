@@ -64,7 +64,7 @@ const SearchProfile& ProfileMapper::GetProfile(const std::string& profile_name) 
     throw std::runtime_error("Profile not found in database: " + profile_name);
 }
 
-const std::vector<std::string> ProfileMapper::GetAllProfiles() {
+const std::vector<std::string> ProfileMapper::GetAllProfiles() const {
     std::vector<std::string> profile_names;
 
     profile_names.reserve(search_profiles_.size()); 

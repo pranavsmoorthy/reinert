@@ -14,6 +14,6 @@ public:
     bool Load(const std::string& filepath, Context& ctx);
     void AddProfile(const SearchProfile& profile);
     const SearchProfile& GetProfile(const std::string& profile_name) const;
-    const std::vector<std::string> GetAllProfiles();
+    const std::vector<std::string> GetAllProfiles() const;
     void DeleteProfile(const std::string& profile_name, Context& ctx);
 };
