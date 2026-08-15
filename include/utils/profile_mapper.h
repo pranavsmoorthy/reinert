@@ -6,10 +6,6 @@
 #include <string>
 #include <vector>
 
-// Forward declaration of Context if it is passed by reference in methods, 
-// assuming it's included elsewhere or handled in the broader project scope.
-class Context;
-
 /**
  * @class ProfileMapper
  * @brief A utility class responsible for managing and storing vector search profiles.
