@@ -79,22 +79,30 @@ StringExpression* Parser::ParseString() {
     return new StringExpression(value);
 }
 
-Expression* Parser::ParseAnalyzeCommand() {
+AnalyzeExpression* Parser::ParseAnalyzeCommand() {
     Advance(); 
 
     Token mode = Consume(TokenType::IDENTIFIER, "Expected mode after ANALYZE (e.g., MANUAL).");
+    AnalyzeExpression* expression = nullptr;
 
     if (mode.value == "MANUAL") {
         CoordExpression* coords = ParseVector();
-        return new AnalyzeManualExpression(coords); 
+        expression = new AnalyzeManualExpression(coords); 
     } else if (mode.value == "TICKER") {
         StringExpression* ticker = ParseString();
         NumberExpression* consecutive_eps_beats = ParseNumber();
         NumberExpression* avg_eps_surprise = ParseNumber();
-        return new AnalyzeTickerExpression(ticker, consecutive_eps_beats, avg_eps_surprise);
+        expression = new AnalyzeTickerExpression(ticker, consecutive_eps_beats, avg_eps_surprise);
+    } else {
+        throw std::runtime_error("Unknown ANALYZE mode: " + mode.value);
     }
 
-    throw std::runtime_error("Unknown ANALYZE mode: " + mode.value);
+    if (Peek().value == "WITH") {
+        Advance();
+        expression -> SetProfile(ParseString());
+    }
+
+    return expression;
 }
 
 Expression* Parser::ParseConfigureCommand() {

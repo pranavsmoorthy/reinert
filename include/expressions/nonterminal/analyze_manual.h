@@ -5,6 +5,7 @@
 
 #include "expressions/terminal/coord_expression.h"
 #include "expressions/terminal/string_expression.h"
+#include "analyze_expression.h"
 
 #include "context.h"
 
@@ -12,7 +13,7 @@
 
 using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 
-class AnalyzeManualExpression : public Expression {
+class AnalyzeManualExpression : public AnalyzeExpression{
     private:
         CoordExpression* coord_expression_;
         StringExpression* profile_expression_;

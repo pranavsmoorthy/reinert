@@ -6,9 +6,12 @@
 #include <stdexcept>
 
 void SearchProfile::AdditionalValidate() const {
-    auto it = ctx.search_profiles.find(name);
+    if (!verified) {
+        auto it = ctx.search_profiles.find(name);
 
-    if (it != ctx.search_profiles.end()) {
-        throw std::logic_error("Search Profile with given name already exists");
+        if (it != ctx.search_profiles.end()) {
+            throw std::logic_error("Search Profile with given name " + name + " already exists");
+        }
+
     }
 }

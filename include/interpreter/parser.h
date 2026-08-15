@@ -11,6 +11,7 @@
 #include "expressions/nonterminal/add_profile.h"
 #include "expressions/terminal/view_profiles_expression.h"
 #include "expressions/nonterminal/view_profile_expression.h"
+#include "expressions/nonterminal/analyze_expression.h"
 
 #include "token.h"
 
@@ -34,7 +35,7 @@ class Parser {
         StringExpression* ParseString(); 
         CoordExpression* ParseVector();
 
-        Expression* ParseAnalyzeCommand();
+        AnalyzeExpression* ParseAnalyzeCommand();
         Expression* ParseConfigureCommand();
         Expression* ParseViewConfigCommand();
         ClearExpression* ParseClearCommand();

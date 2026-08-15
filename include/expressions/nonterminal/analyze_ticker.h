@@ -5,6 +5,7 @@
 
 #include "expressions/terminal/string_expression.h"
 #include "expressions/terminal/number_expression.h"
+#include "analyze_expression.h"
 
 #include "context.h"
 
@@ -12,11 +13,9 @@
 
 using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 
-class AnalyzeTickerExpression : public Expression {
+class AnalyzeTickerExpression : public AnalyzeExpression {
     private:
         StringExpression* ticker_expression_;
-        StringExpression* profile_expression_;
-
         NumberExpression* consecutive_eps_beats_expression_;
         NumberExpression* avg_eps_surprise_expressions_;
 
@@ -24,8 +23,7 @@ class AnalyzeTickerExpression : public Expression {
         AnalyzeTickerExpression(
             StringExpression* ticker, 
             NumberExpression* consecutive_eps_beats, 
-            NumberExpression* avg_eps_surprise, 
-            StringExpression* profile = nullptr);
+            NumberExpression* avg_eps_surprise);
         ~AnalyzeTickerExpression();
 
         std::any Execute(Context& ctx) const override;

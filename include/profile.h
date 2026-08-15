@@ -13,6 +13,7 @@ struct Context;
 struct SearchProfile : public vectorforge::config::FindManyNodesConfig {
     std::string name = "";
     Context& ctx;
+    bool verified = false;
 
     SearchProfile(Context& context) : ctx(context) {}
     void AdditionalValidate() const override;

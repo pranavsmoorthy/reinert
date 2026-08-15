@@ -1,6 +1,7 @@
 #include "expressions/terminal/string_expression.h"
 #include "expressions/terminal/number_expression.h"
 
+#include "expressions/nonterminal/analyze_expression.h"
 #include "expressions/nonterminal/analyze_ticker.h"
 
 #include "context.h"
@@ -18,11 +19,8 @@ using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 AnalyzeTickerExpression::AnalyzeTickerExpression(
     StringExpression* ticker, 
     NumberExpression* consecutive_eps_beats, 
-    NumberExpression* avg_eps_surprise, 
-    StringExpression* profile) {
+    NumberExpression* avg_eps_surprise) {
         ticker_expression_ = ticker;
-        profile_expression_ = profile;
-
         consecutive_eps_beats_expression_ = consecutive_eps_beats;
         avg_eps_surprise_expressions_ = avg_eps_surprise;
 }
@@ -31,8 +29,11 @@ AnalyzeTickerExpression::~AnalyzeTickerExpression() {
     delete ticker_expression_;
     ticker_expression_ = nullptr;
 
-    delete profile_expression_;
-    profile_expression_ = nullptr;
+    delete consecutive_eps_beats_expression_;
+    consecutive_eps_beats_expression_ = nullptr;
+
+    delete avg_eps_surprise_expressions_;
+    avg_eps_surprise_expressions_ = nullptr;
 }
 
 std::any AnalyzeTickerExpression::Execute(Context& ctx) const {
@@ -52,14 +53,16 @@ std::any AnalyzeTickerExpression::Execute(Context& ctx) const {
 
     SearchProfile default_profile(ctx); 
     const SearchProfile* profile = nullptr;
+    const StringExpression* profile_expression = GetProfile();
 
-    if (profile_expression_ == nullptr) {
+    if (profile_expression == nullptr) {
         profile = &default_profile;
     } else {
-        auto it = ctx.search_profiles.find(std::any_cast<std::string>(profile_expression_ -> Execute(ctx)));
+        std::string profile_name = std::any_cast<std::string>(profile_expression -> Execute(ctx));
+        auto it = ctx.search_profiles.find(profile_name);
 
         if (it == ctx.search_profiles.end()) {
-            ThrowCannotExecuteCommand("Profile could not be found");
+            ThrowCannotExecuteCommand("Profile " + profile_name + " could not be found");
         } else {
             profile = &(it -> second);
         }
@@ -75,3 +78,4 @@ std::any AnalyzeTickerExpression::Execute(Context& ctx) const {
 
     return {};
 }
+//PROFILE ADD A 1 2 3 4 ANALYZE TICKER CSCO 0 0 WITH A

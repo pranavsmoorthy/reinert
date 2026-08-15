@@ -60,6 +60,8 @@ std::any AddProfileExpression::Execute(Context& ctx) const {
         sp.node_ef = static_cast<std::size_t>(vals[3]);
         sp.Validate();
 
+        sp.verified = true;
+
         ctx.search_profiles.insert({sp.name, sp});
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;

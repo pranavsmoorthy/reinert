@@ -38,11 +38,11 @@ class Expression {
         }
 
         void ThrowCannotExecuteCommand(const std::string& additional_info) const {
-            throw std::logic_error("Command could not execute: " + additional_info);
+            throw std::runtime_error("Command could not execute: " + additional_info);
         }
 
         void ThrowCannotExecuteCommand() const {
-            throw std::logic_error("Command could not execute");
+            throw std::runtime_error("Command could not execute");
         }
 };
 
