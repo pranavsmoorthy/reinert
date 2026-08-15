@@ -4,15 +4,41 @@
 #include <algorithm>
 #include <cmath>
 
+/**
+ * @class Preprocessor
+ * @brief A utility class for normalizing and scaling raw financial data.
+ * 
+ * The Preprocessor prepares raw stock market and macro-economic data points 
+ * by clamping them to expected bounds and scaling them into a normalized 
+ * vector space (typically between 0.0 and 1.0 or -1.0 and 1.0) before they 
+ * are inserted into or queried against the vector database.
+ */
 class Preprocessor {
 private:
-    // Helper to clamp and normalize a value between a fixed min and max
+    /**
+     * @brief Clamps and normalizes a raw value between specified minimum and maximum bounds.
+     * 
+     * @param raw The raw input value to scale.
+     * @param min_bound The minimum expected threshold.
+     * @param max_bound The maximum expected threshold.
+     * @return double The normalized value scaled relative to the bounds.
+     */
     static double Scale(double raw, double min_bound, double max_bound) {
         double clamped = std::clamp(raw, min_bound, max_bound);
         return (clamped - min_bound) / (max_bound - min_bound);
     }
 
 public:
+    /**
+     * @brief Transforms a raw 12-dimensional feature vector into a normalized coordinate vector.
+     * 
+     * This function processes 12 specific financial features across four categories: 
+     * Technicals, Track Record, Valuation, and Macro indicators. Market cap utilizes 
+     * a Log10 transformation prior to scaling.
+     * 
+     * @param raw The 12-element array of raw financial metrics.
+     * @return std::array<double, 12> The processed and scaled coordinate vector.
+     */
     static std::array<double, 12> TransformCoordinates(const std::array<double, 12>& raw) {
         std::array<double, 12> p;
 
