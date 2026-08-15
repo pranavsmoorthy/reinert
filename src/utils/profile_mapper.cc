@@ -22,7 +22,6 @@ void ProfileMapper::AddProfile(const SearchProfile& profile) {
 
 bool ProfileMapper::Load(const std::string& folderpath, Context& ctx) {
     if (!fs::exists(folderpath) || !fs::is_directory(folderpath)) {
-        std::cerr << "Profile directory does not exist: " << folderpath << std::endl;
         return false;
     }
 

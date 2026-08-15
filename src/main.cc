@@ -27,6 +27,9 @@
 using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 
 int main(int argc, char* argv[]) {
+    std::cout << "\033[2J\033[H" << std::flush;
+    std::cout << "Welcome to reinert!" << std::endl;
+
     std::filesystem::path exe_path = std::filesystem::absolute(argv[0]);
     std::filesystem::path project_root = exe_path.parent_path();
     std::filesystem::current_path(project_root);
@@ -78,7 +81,7 @@ int main(int argc, char* argv[]) {
         }
 
         if (!ctx.profile_map.Load(app_config.search_profiles_path, ctx)) {
-            std::cerr << "Terminal failed to boot: CIK database missing. Try reconfiguring the Profile path." << std::endl;
+            std::cerr << "Terminal failed to boot: Profile folder missing. Try reconfiguring the Profile path." << std::endl;
         } else {
             profiles_loaded = true;
         }

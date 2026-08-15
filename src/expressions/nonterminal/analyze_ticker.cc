@@ -68,11 +68,6 @@ std::any AnalyzeTickerExpression::Execute(Context& ctx) const {
 
     std::cout << "Ticker     Date            Similarity     Deviation     Went Up?     Percent Change" << std::endl;
 
-    for (NodeType* n : closest) {
-        std::cout << Formatter::FormatNode(*n, coords) << std::endl;
-    }
-
-
     int went_up = 0;
 
     for (NodeType* n : closest) {

@@ -29,7 +29,7 @@ class Expression {
 
         virtual std::any Execute(Context& ctx) const = 0;
         
-        const Expression* GetNextExpression() const {
+        Expression* GetNextExpression() const {
             return next_;
         }
 
