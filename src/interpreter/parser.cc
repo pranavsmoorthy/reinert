@@ -47,13 +47,6 @@ CoordExpression* Parser::ParseVector() {
     Consume(TokenType::R_BRACKET, "Expected ']' to end vector.");
     
     std::array<double, 12> coords_transformed = Preprocessor::TransformCoordinates(coords);
-
-    for (double d : coords_transformed) {
-        std::cout << d << " ";
-    }
-
-    std::cout << std::endl;
-
     return new CoordExpression(coords_transformed);
 }
 

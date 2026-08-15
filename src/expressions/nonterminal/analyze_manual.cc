@@ -17,17 +17,13 @@
 
 using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 
-AnalyzeManualExpression::AnalyzeManualExpression(CoordExpression* coords, StringExpression* profile) {
+AnalyzeManualExpression::AnalyzeManualExpression(CoordExpression* coords) {
     coord_expression_ = coords;
-    profile_expression_ = profile;
 }
 
 AnalyzeManualExpression::~AnalyzeManualExpression() {
     delete coord_expression_;
     coord_expression_ = nullptr;
-
-    delete profile_expression_;
-    profile_expression_ = nullptr;
 }
 
 std::any AnalyzeManualExpression::Execute(Context& ctx) const {
@@ -36,13 +32,16 @@ std::any AnalyzeManualExpression::Execute(Context& ctx) const {
     }
 
     std::array<double, 12> coords = std::any_cast<std::array<double, 12>>(coord_expression_ -> Execute(ctx));
+    
     SearchProfile default_profile(ctx); 
     const SearchProfile* profile = nullptr;
+    const StringExpression* profile_expression = GetProfile();
 
-    if (profile_expression_ == nullptr) {
+    if (profile_expression == nullptr) {
         profile = &default_profile;
     } else {
-        auto it = ctx.search_profiles.find(std::any_cast<std::string>(profile_expression_ -> Execute(ctx)));
+        std::string profile_name = std::any_cast<std::string>(profile_expression -> Execute(ctx));
+        auto it = ctx.search_profiles.find(profile_name);
 
         if (it == ctx.search_profiles.end()) {
             ThrowCannotExecuteCommand("Profile could not be found");

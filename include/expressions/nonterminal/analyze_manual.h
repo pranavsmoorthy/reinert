@@ -13,13 +13,12 @@
 
 using NodeType = vectorforge::node::Node<EarningsStruct, double, 12, 16>;
 
-class AnalyzeManualExpression : public AnalyzeExpression{
+class AnalyzeManualExpression : public AnalyzeExpression {
     private:
         CoordExpression* coord_expression_;
-        StringExpression* profile_expression_;
 
     public:
-        AnalyzeManualExpression(CoordExpression* coords, StringExpression* profile = nullptr);
+        AnalyzeManualExpression(CoordExpression* coords);
         ~AnalyzeManualExpression();
 
         std::any Execute(Context& ctx) const override;
