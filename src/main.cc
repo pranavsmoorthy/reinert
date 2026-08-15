@@ -61,29 +61,33 @@ int main(int argc, char* argv[]) {
     bool profiles_loaded = false;
 
     if (app_config.FullyConfigured()) {
-        vectorforge::serializer::Serializer<EarningsStruct, double, 12, 16> ser;
-        EarningsStructSerializerConfig config;
-
-        vectorforge::graph::Graph<EarningsStruct, double, 12, 16> model;
-
         try {
-            ser.Load(model, app_config.graph_model_path, config);
-            ctx.graph = model;
-            model_loaded = true;
-        } catch (const std::runtime_error&) {
-            std::cerr << "Terminal failed to boot: Could not load model. Try reconfiguring the model path." << std::endl;
-        }
-        
-        if (!ctx.cik_map.Load(app_config.cik_map_path)) {
-            std::cerr << "Terminal failed to boot: CIK database missing. Try reconfiguring the CIK path." << std::endl;
-        } else {
-            cik_loaded = true;
-        }
+            vectorforge::serializer::Serializer<EarningsStruct, double, 12, 16> ser;
+            EarningsStructSerializerConfig config;
 
-        if (!ctx.profile_map.Load(app_config.search_profiles_path, ctx)) {
-            std::cerr << "Terminal failed to boot: Profile folder missing. Try reconfiguring the Profile path." << std::endl;
-        } else {
-            profiles_loaded = true;
+            vectorforge::graph::Graph<EarningsStruct, double, 12, 16> model;
+
+            try {
+                ser.Load(model, app_config.graph_model_path, config);
+                ctx.graph = model;
+                model_loaded = true;
+            } catch (const std::runtime_error&) {
+                std::cerr << "Terminal failed to boot: Could not load model. Try reconfiguring the model path." << std::endl;
+            }
+            
+            if (!ctx.cik_map.Load(app_config.cik_map_path)) {
+                std::cerr << "Terminal failed to boot: CIK database missing. Try reconfiguring the CIK path." << std::endl;
+            } else {
+                cik_loaded = true;
+            }
+
+            if (!ctx.profile_map.Load(app_config.search_profiles_path, ctx)) {
+                std::cerr << "Terminal failed to boot: Profile folder missing. Try reconfiguring the Profile path." << std::endl;
+            } else {
+                profiles_loaded = true;
+            }
+        } catch (const std::runtime_error&) {
+            std::cerr << "Path linked to wrong file/folder. Sending to configure mode." << std::endl;
         }
     }
 
@@ -126,6 +130,7 @@ int main(int argc, char* argv[]) {
         }
     } else {
         std::cerr << "Some paths remain unconfigured or improperly set. Run CONFIGURE to set these paths" << std::endl;
+        std::cerr << "Make sure the profiles path is an EMPTY FOLDER" << std::endl;
         std::cerr << "Can only run CONFIGURE, CLEAR, and QUIT" << std::endl;
         std::cerr << "Run QUIT after configuring" << std::endl;
         std::string input = "";
