@@ -2,6 +2,8 @@
 
 **Reinert** is a standalone, command-line financial analysis utility built for macOS. It evaluates past results of corporate earnings reports using a high-performance vector database model to determine whether to invest in a stock right before or after an earnings release.
 
+This also serves as an extended demonstration of another project of mine, VectorForge.
+
 ## Features
 
 * **Earnings Impact Analysis**: Leverages historical technicals, track records, valuations, and macroeconomic data to evaluate expected post-earnings stock price movement.
@@ -28,4 +30,4 @@ CONFIGURE EDIT <cik_map_path> <graph_model_path> <search_profiles_path>
 Where `cik_map_path` is the path to the `tickers.json` file, `graph_model_path` is the path to the `earnings_model.bin` file, and `search_profiles_path` is the path to the directory where you want to store the search profiles. *Ensure this directory is completely empty.*
 
 ## What Next?
-Type `QUIT` and press enter and reopen the application. Go to the docs folder to learn how to interact with the model and make your own if you want to.
+Type `QUIT` and press enter and reopen the application. Go to the `/docs` folder to learn how to interact with the model and make your own if you want to.
