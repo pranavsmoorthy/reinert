@@ -4,7 +4,7 @@
 
 This also serves as an extended demonstration of another project of mine, VectorForge.
 
-*Please don't use this as an actual financial application. I made this for fun over a week, and any result the model gives should be thoroughly verified before acting on it.*
+*Please don't use this as an actual financial application. I would be thoroughly horrified if anyone actually used it as so. I made this for fun over a week, and any result the model gives should be thoroughly verified before acting on it.*
 
 ## Features
 
