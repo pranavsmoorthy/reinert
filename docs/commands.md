@@ -13,11 +13,13 @@ Queries live and fundamental data for a specific stock ticker by pulling recent 
 ANALYZE TICKER <ticker> <consecutive_eps_beats> <avg_eps_surprise> [WITH <profile_name>]
 ```
 
-* **Example:** `ANALYZE TICKER AAPL 4 1.5`
-* **Example with Profile:** `ANALYZE TICKER NVDA 6 2.1 WITH aggressive_profile`
+* **Example:** `ANALYZE TICKER AAPL 4 0.15`
+* **Example with Profile:** `ANALYZE TICKER NVDA 6 0.21 WITH aggressive_profile`
+
+You can find the consecutive earnings beats easy enough by Googling it, and you can find the average EPS surprise on Yahoo Finance's earnings calendar. The EPS surprise is a decimal version of the percent Yahoo Finance gives you.
 
 ### Manual Mode
-Evaluates a raw, pre-scaled 12-dimensional coordinate vector directly against the graph database.
+Evaluates a raw, pre-scaled 12-dimensional coordinate vector directly against the graph database. I recommend going with the ticker version since this can take a while to type out and understand.
 ```text
 ANALYZE MANUAL [<coord_1>, <coord_2>, ..., <coord_12>] [WITH <profile_name>]`
 ```
@@ -33,7 +35,7 @@ Each dimension represents a different trait of the stock
 * **Dimension 6 (`p[6]`):** **Previous Quarter Gap** — Scaled between -0.3 and 0.3.
 * **Dimension 7 (`p[7]`):** **Trailing P/E Ratio** — Scaled between 0.0 and 100.0.
 * **Dimension 8 (`p[8]`):** **Year-over-Year Revenue Growth** — Scaled between -0.5 and 1.0.
-* **Dimension 9 (`p[9]`):** **Market Capitalization** — Log10 transformed and scaled between.
+* **Dimension 9 (`p[9]`):** **Market Capitalization** — Log10 transformed and scaled. Put the full number, no matter how big it is.
 * **Dimension 10 (`p[10]`):** **VIX Level (Volatility Index)** — Scaled between 10.0 and 85.0.
 * **Dimension 11 (`p[11]`):** **10-Year Treasury Yield** — Scaled between 0.0 and 10.0.
 

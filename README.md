@@ -4,6 +4,8 @@
 
 This also serves as an extended demonstration of another project of mine, VectorForge.
 
+*Please don't use this as an actual financial application. I made this for fun over a week, and any result the model gives should be thoroughly verified before acting on it.*
+
 ## Features
 
 * **Earnings Impact Analysis**: Leverages historical technicals, track records, valuations, and macroeconomic data to evaluate expected post-earnings stock price movement.
@@ -31,3 +33,5 @@ Where `cik_map_path` is the path to the `tickers.json` file, `graph_model_path` 
 
 ## What Next?
 Type `QUIT` and press enter and reopen the application. Go to the `/docs` folder to learn how to interact with the model and make your own if you want to.
+
+*Again, this is not an actual financial application, make sure to completely vet whatever result the model gives.*
